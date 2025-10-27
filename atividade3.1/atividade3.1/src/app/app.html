@@ -1,0 +1,65 @@
+<h2> Sistema de Reserva de Viagens</h2>
+
+<form [formGroup]="formReserva" (ngSubmit)="enviar()">
+
+  <label>Destino:</label>
+  <select formControlName="destino" [ngClass]="{'invalido': formReserva.get('destino')?.invalid && formReserva.get('destino')?.touched}">
+    <option value="">Selecione...</option>
+    <option *ngFor="let d of destinos" [value]="d">{{ d }}</option>
+  </select>
+  <div *ngIf="formReserva.get('destino')?.invalid && formReserva.get('destino')?.touched" class="erro">
+    Destino é obrigatório.
+  </div>
+
+  <label>Data de Ida:</label>
+  <input type="date" formControlName="dataIda">
+  <div *ngIf="formReserva.get('dataIda')?.invalid && formReserva.get('dataIda')?.touched" class="erro">
+    Data de ida é obrigatória.
+  </div>
+
+
+  <label>Data de Volta:</label>
+  <input type="date" formControlName="dataVolta">
+  <div *ngIf="formReserva.errors?.['dataInvalida'] && formReserva.get('dataVolta')?.touched" class="erro">
+    A data de volta deve ser posterior à data de ida.
+  </div>
+
+
+  <label>Passageiros:</label>
+  <input type="number" formControlName="passageiros">
+  <div *ngIf="formReserva.get('passageiros')?.invalid && formReserva.get('passageiros')?.touched" class="erro">
+    O número de passageiros deve estar entre 1 e 5.
+  </div>
+
+
+  <label>Email para contato:</label>
+  <input type="email" formControlName="email">
+  <div *ngIf="formReserva.get('email')?.invalid && formReserva.get('email')?.touched" class="erro">
+    Insira um e-mail válido.
+  </div>
+
+  <button type="submit" [disabled]="formReserva.invalid">Reservar</button>
+
+</form>
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+  }
+  label {
+    margin-top: 10px;
+  }
+  input, select, button {
+    margin-top: 5px;
+    padding: 8px;
+    font-size: 1em;
+  }
+  .erro {
+    color: red;
+    font-size: 0.9em;
+  }
+  .invalido {
+    border: 1px solid red;
+  }
+</style>
