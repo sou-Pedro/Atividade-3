@@ -1,0 +1,20 @@
+  form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+  }
+  label {
+    margin-top: 10px;
+  }
+  input, select, button {
+    margin-top: 5px;
+    padding: 8px;
+    font-size: 1em;
+  }
+  .erro {
+    color: red;
+    font-size: 0.9em;
+  }
+  .invalido {
+    border: 1px solid red;
+  }
