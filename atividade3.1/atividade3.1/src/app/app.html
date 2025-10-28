@@ -1,43 +1,54 @@
-<h2> Sistema de Reserva de Viagens</h2>
+<div class="d-flex vh-100 align-items-center justify-content-center bg-light">
+  <div style="width:100%; max-width:420px; padding:24px;">
+    <h2 class="text-center mb-3">Sistema de Reserva de Viagens</h2>
 
-<form [formGroup]="formReserva" (ngSubmit)="enviar()">
+    <form [formGroup]="formReserva" (ngSubmit)="enviar()" novalidate>
+      <div class="mb-3">
+        <label class="form-label">Destino</label>
+        <select class="form-select" formControlName="destino" [ngClass]="{'is-invalid': formReserva.get('destino')?.invalid && formReserva.get('destino')?.touched}">
+          <option value="">Selecione...</option>
+          <option *ngFor="let d of destinos" [value]="d">{{ d }}</option>
+        </select>
+        <div *ngIf="formReserva.get('destino')?.invalid && formReserva.get('destino')?.touched" class="text-danger small mt-1">
+          Destino é obrigatório.
+        </div>
+      </div>
 
-  <label>Destino:</label>
-  <select formControlName="destino" [ngClass]="{'invalido': formReserva.get('destino')?.invalid && formReserva.get('destino')?.touched}">
-    <option value="">Selecione...</option>
-    <option *ngFor="let d of destinos" [value]="d">{{ d }}</option>
-  </select>
-  <div *ngIf="formReserva.get('destino')?.invalid && formReserva.get('destino')?.touched" class="erro">
-    Destino é obrigatório.
+      <div class="mb-3">
+        <label class="form-label">Data de Ida</label>
+        <input class="form-control" type="date" formControlName="dataIda">
+        <div *ngIf="formReserva.get('dataIda')?.invalid && formReserva.get('dataIda')?.touched" class="text-danger small mt-1">
+          Data de ida é obrigatória.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Data de Volta</label>
+        <input class="form-control" type="date" formControlName="dataVolta">
+        <div *ngIf="formReserva.errors?.['dataInvalida'] && formReserva.get('dataVolta')?.touched" class="text-danger small mt-1">
+          A data de volta deve ser posterior à data de ida.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Passageiros</label>
+        <input class="form-control" type="number" formControlName="passageiros" min="1" max="5">
+        <div *ngIf="formReserva.get('passageiros')?.invalid && formReserva.get('passageiros')?.touched" class="text-danger small mt-1">
+          O número de passageiros deve estar entre 1 e 5.
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Email para contato</label>
+        <input class="form-control" type="email" formControlName="email">
+        <div *ngIf="formReserva.get('email')?.invalid && formReserva.get('email')?.touched" class="text-danger small mt-1">
+          Insira um e-mail válido.
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button class="btn btn-primary" type="submit" [disabled]="formReserva.invalid">Reservar</button>
+      </div>
+    </form>
   </div>
-
-  <label>Data de Ida:</label>
-  <input type="date" formControlName="dataIda">
-  <div *ngIf="formReserva.get('dataIda')?.invalid && formReserva.get('dataIda')?.touched" class="erro">
-    Data de ida é obrigatória.
-  </div>
-
-
-  <label>Data de Volta:</label>
-  <input type="date" formControlName="dataVolta">
-  <div *ngIf="formReserva.errors?.['dataInvalida'] && formReserva.get('dataVolta')?.touched" class="erro">
-    A data de volta deve ser posterior à data de ida.
-  </div>
-
-
-  <label>Passageiros:</label>
-  <input type="number" formControlName="passageiros">
-  <div *ngIf="formReserva.get('passageiros')?.invalid && formReserva.get('passageiros')?.touched" class="erro">
-    O número de passageiros deve estar entre 1 e 5.
-  </div>
-
-
-  <label>Email para contato:</label>
-  <input type="email" formControlName="email">
-  <div *ngIf="formReserva.get('email')?.invalid && formReserva.get('email')?.touched" class="erro">
-    Insira um e-mail válido.
-  </div>
-
-  <button type="submit" [disabled]="formReserva.invalid">Reservar</button>
-
-</form>
+</div>
