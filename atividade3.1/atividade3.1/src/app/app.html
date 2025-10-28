@@ -1,8 +1,8 @@
-<div class="d-flex vh-100 align-items-center justify-content-center bg-light">
+<div class="d-flex vh-100 align-items-center justify-content-center bg-light reserva-app">
   <div style="width:100%; max-width:420px; padding:24px;">
     <h2 class="text-center mb-3">Sistema de Reserva de Viagens</h2>
 
-    <form [formGroup]="formReserva" (ngSubmit)="enviar()" novalidate>
+    <form class="reserva-form" [formGroup]="formReserva" (ngSubmit)="enviar()" novalidate>
       <div class="mb-3">
         <label class="form-label">Destino</label>
         <select class="form-select" formControlName="destino" [ngClass]="{'is-invalid': formReserva.get('destino')?.invalid && formReserva.get('destino')?.touched}">
@@ -25,7 +25,10 @@
       <div class="mb-3">
         <label class="form-label">Data de Volta</label>
         <input class="form-control" type="date" formControlName="dataVolta">
-        <div *ngIf="formReserva.errors?.['dataInvalida'] && formReserva.get('dataVolta')?.touched" class="text-danger small mt-1">
+        <div *ngIf="formReserva.get('dataVolta')?.hasError('required') && formReserva.get('dataVolta')?.touched" class="text-danger small mt-1">
+          Data de volta é obrigatória.
+        </div>
+        <div *ngIf="formReserva.hasError('dataInvalida') && formReserva.get('dataVolta')?.touched && !formReserva.get('dataVolta')?.hasError('required')" class="text-danger small mt-1">
           A data de volta deve ser posterior à data de ida.
         </div>
       </div>
